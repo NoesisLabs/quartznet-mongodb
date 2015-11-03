@@ -142,10 +142,13 @@ namespace Quartz.Impl.MongoDB
                 new JobDataMapSerializer()
             );
 
-            BsonSerializer.RegisterSerializer(
-                typeof(DateTimeOffset),
-                new DateTimeOffsetSerializer()
-            );
+            if (BsonSerializer.LookupSerializer(typeof(DateTimeOffset)) == null)
+            {
+                BsonSerializer.RegisterSerializer(
+                    typeof(DateTimeOffset),
+                    new DateTimeOffsetSerializer()
+                );
+            }
 
             BsonSerializer.RegisterGenericSerializerDefinition(typeof(Collection.ISet<>), typeof(SetSerializer<>));
 
